@@ -5,5 +5,8 @@ import org.example.ui.login.LoginScreen
 fun main() {
 
     while (true)
-        LoginScreen.showLoginScreen()
+        if (!LoginScreen.showLoginScreen())
+            break
+
+
 }

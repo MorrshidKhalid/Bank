@@ -3,6 +3,7 @@ package org.example.ui.main
 import org.example.SaveResult
 import org.example.lib.Util.Companion.line
 import org.example.objects.BankClient
+import org.example.objects.User
 import org.example.ui.Screen
 
 class AddNewClientScreen : Screen() {
@@ -40,7 +41,11 @@ class AddNewClientScreen : Screen() {
         }
 
         fun showAddNewClientScreen() {
-            DrawScreenHeader(TITLE)
+
+            if (!userPermissions(User.Companion.Permissions.AddClient.num)) // This will exit the function if the user has no access.
+                return
+
+            drawScreenHeader(TITLE)
 
             print("Please Enter Account Number: ")
             var accountNo = readln()

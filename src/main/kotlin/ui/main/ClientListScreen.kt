@@ -2,6 +2,7 @@ package org.example.ui.main
 
 import org.example.lib.Util.Companion.line
 import org.example.objects.BankClient
+import org.example.objects.User
 import org.example.ui.Screen
 
 class ClientListScreen : Screen() {
@@ -23,7 +24,11 @@ class ClientListScreen : Screen() {
         }
 
         fun showClientsList() {
-            DrawScreenHeader(_title)
+
+            if (!userPermissions(User.Companion.Permissions.ShowClientList.num)) // This will exit the function if the user has no access.
+                return
+
+            drawScreenHeader(_title)
 
             println("\n%-16s|%-16s|%-30s|%-30s|%-16s|%-16s\n".
             format("Account NO", "PIN", "Account Name", "Email", "Phone", "Balance"))

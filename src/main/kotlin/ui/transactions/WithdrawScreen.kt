@@ -31,7 +31,7 @@ class WithdrawScreen : Screen() {
         }
 
         fun showWithdrawScreen() {
-            DrawScreenHeader(WITHDRAW_TITLE)
+            drawScreenHeader(WITHDRAW_TITLE)
 
             var accountNo = readAccountNNo()
 

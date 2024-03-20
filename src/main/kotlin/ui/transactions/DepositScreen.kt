@@ -30,7 +30,7 @@ class DepositScreen : Screen() {
         }
 
         fun showDepositScreen() {
-            DrawScreenHeader(DEPOSIT_TITLE)
+            drawScreenHeader(DEPOSIT_TITLE)
 
             var accountNo = readAccountNNo()
 
@@ -42,7 +42,7 @@ class DepositScreen : Screen() {
             val client = BankClient.find(accountNo)
             printClient(client)
 
-            print("Please Enter withdraw amount: ")
+            print("Please Enter Deposit amount: ")
             val amount = readDbl()
 
             print("Are you sure you want to deposit thia amount? y/n ")

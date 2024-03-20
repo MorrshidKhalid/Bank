@@ -21,7 +21,7 @@ class FindUserScreen : Screen() {
         }
 
         fun showFindUserScreen() {
-            DrawScreenHeader(TITLE)
+            drawScreenHeader(TITLE)
 
             print("Please Enter Username: ")
             var username = readln()

@@ -2,6 +2,7 @@ package org.example.ui.main
 
 import org.example.lib.Util
 import org.example.objects.BankClient
+import org.example.objects.User
 import org.example.ui.Screen
 
 class DeleteClientScreen : Screen() {
@@ -24,7 +25,11 @@ class DeleteClientScreen : Screen() {
         }
 
         fun showDeleteClientScreen() {
-            DrawScreenHeader(TITLE)
+
+            if (!userPermissions(User.Companion.Permissions.DeleteClient.num)) // This will exit the function if the user has no access.
+                return
+
+            drawScreenHeader(TITLE)
 
             print("Please Enter Account Number: ")
             var accountNo = readln()

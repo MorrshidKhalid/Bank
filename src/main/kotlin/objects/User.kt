@@ -1,7 +1,10 @@
 package org.example.objects
 
+import org.example.lib.Util.Companion.decryptText
+import org.example.CurrentUser
 import org.example.Mode
 import org.example.SaveResult
+import org.example.lib.Date.Companion.getCurrentDateAndTime
 import java.io.File
 
 class User(
@@ -21,10 +24,12 @@ class User(
             UpdateClient(8),
             FindClient(16),
             Transactions(32),
-            ManageUsers(64)
+            ManageUsers(64),
+            Log(128)
         }
 
         private const val PATH = "Users.txt"
+        private const val LOG_PATH = "Log.txt"
         private const val EMPTY = ""
 
         private fun loadUsersDataFromFile(): ArrayList<User> {
@@ -39,6 +44,18 @@ class User(
             return arrayOfUsers
         }
 
+        private fun loadLogDataFromFile(): ArrayList<LogRegister> {
+
+            val file  = File(LOG_PATH)
+            val arrayOfLogs = ArrayList<LogRegister>()
+
+            if (file.exists())
+                file.forEachLine { arrayOfLogs.add(convertLineToLogObject(it)) } // Process each line here.
+            else println(println("File $LOG_PATH does not exist"))
+
+            return arrayOfLogs
+        }
+
         private fun convertLineToUserObject(line: String, separator: String = "#//#"): User {
 
             val  lineRecord = line.split(separator)
@@ -49,7 +66,23 @@ class User(
                 lineRecord[2].toInt())
         }
 
-        private fun convertUserObjectToLine(user: User, separator: String = "#//#"): String = user.userName + separator + user.password + separator + user.permission.toString()
+        private fun convertLineToLogObject(line: String, separator: String = "#//#"): LogRegister {
+
+            val  logLine = line.split(separator)
+            return LogRegister(
+                logLine[0],
+                logLine[1],
+                logLine[2],
+                logLine[3])
+        }
+
+        fun convertUserObjectToLine(user: User, separator: String = "#//#"): String = user.userName + separator + user.password + separator + user.permission.toString()
+
+        private fun prepareRegisterLine(separator: String = "#//#"): String =
+                    "${getCurrentDateAndTime()}$separator" +
+                    "${CurrentUser.user.userName}$separator" +
+                    "${CurrentUser.user.password}$separator" +
+                    "${CurrentUser.user.permission}"
 
         private fun getEmptyUserObject(): User = User(Mode.EmptyMode, EMPTY, EMPTY, 0)
 
@@ -72,7 +105,7 @@ class User(
             // Content in the clients file.
             val content = loadUsersDataFromFile()
             content.forEach {
-                if (it.userName == userName && it.password == password)
+                if (it.userName == userName && decryptText(it.password) == password)
                     return it
             }
 
@@ -99,6 +132,12 @@ class User(
         }
 
         fun getUserList(): ArrayList<User> = loadUsersDataFromFile()
+
+        fun getLogList(): ArrayList<LogRegister> = loadLogDataFromFile()
+
+        fun addNewRegister() {
+            File(LOG_PATH).appendText("${prepareRegisterLine()}\n")
+        }
 
     }
 

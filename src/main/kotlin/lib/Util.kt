@@ -34,5 +34,22 @@ class Util {
             println("_________________________________________")
         }
 
+        fun encryptText(text: String, encryptKey: Int = 9): String {
+
+            var encryptedText = ""
+            for (element in text)
+                encryptedText += (element + encryptKey)
+
+            return encryptedText
+        }
+
+        fun decryptText(text: String, decryptedKey: Int = 9): String {
+
+            var decryptedText = ""
+            for (element in text)
+                decryptedText += (element - decryptedKey)
+
+            return decryptedText
+        }
     }
 }

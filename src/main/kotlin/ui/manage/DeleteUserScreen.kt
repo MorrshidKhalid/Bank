@@ -21,7 +21,7 @@ class DeleteUserScreen : Screen() {
         }
 
         fun showDeleteUserScreen() {
-            DrawScreenHeader(TITLE)
+            drawScreenHeader(TITLE)
 
             print("Please Enter Username: ")
             var username = readln()

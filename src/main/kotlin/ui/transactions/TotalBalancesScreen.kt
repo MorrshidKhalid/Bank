@@ -20,7 +20,7 @@ class TotalBalancesScreen : Screen() {
         }
 
         fun showTotalBalancesScreen() {
-            DrawScreenHeader(_all_clients)
+            drawScreenHeader(_all_clients)
 
             println("%-16s|%-30s|%-16s".format("AccountNo", "Client Name", "Account Balance"))
 

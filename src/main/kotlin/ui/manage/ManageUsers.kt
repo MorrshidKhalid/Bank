@@ -1,6 +1,7 @@
 package org.example.ui.manage
 
 import lib.InputValidate.Companion.readIntBetween
+import org.example.objects.User
 import org.example.ui.Screen
 
 class ManageUsers : Screen() {
@@ -30,7 +31,10 @@ class ManageUsers : Screen() {
 
         fun showManageUsersManu() {
 
-            DrawScreenHeader("Manage Users Screen")
+            if (!userPermissions(User.Companion.Permissions.ManageUsers.num)) // This will exit the function if the user has no access.
+                return
+
+            drawScreenHeader("Manage Users Screen")
             println("\n%-25s\n%-25s\n%-25s\n%-25s\n%-25s\n%-25s".
             format("[1] List Users ",
                 "[2] Add New User ",

@@ -2,6 +2,7 @@ package org.example.ui.main
 
 import lib.InputValidate.Companion.readIntBetween
 import org.example.CurrentUser
+import org.example.objects.LogRegister
 import org.example.objects.User
 import org.example.ui.Screen
 import org.example.ui.login.LoginScreen
@@ -43,14 +44,18 @@ class MainMenu : Screen() {
             ManageUsers.showManageUsersManu()
         }
 
+        private fun  showLogScreen() {
+            LogScreen.showLogRegisterScreen()
+        }
+
         private fun  logoutScreen() {
             CurrentUser.user = User.find("", "")
         }
 
         fun showMainMenu() {
 
-            DrawScreenHeader("Main Menu Screen")
-            println("\n%-25s\n%-25s\n%-25s\n%-25s\n%-25s\n%-25s\n%-25s\n%-25s".
+            drawScreenHeader("Main Menu Screen")
+            println("\n%-25s\n%-25s\n%-25s\n%-25s\n%-25s\n%-25s\n%-25s\n%-25s\n%-25s".
             format("[1] Show client list ",
                 "[2] Add New Record ",
                 "[3] Delete Record ",
@@ -58,12 +63,13 @@ class MainMenu : Screen() {
                 "[5] Find Record ",
                 "[6] Transactions ",
                 "[7] Manage Users ",
-                "[8] Logout "))
+                "[8] Login Register ",
+                "[9] Logout "))
 
             print("\n======================================================================\n")
-            print("Choose what you want to do[1 to 8]? ")
+            print("Choose what you want to do[1 to 9]? ")
 
-            performMainMenuOption(readIntBetween(1, 8))
+            performMainMenuOption(readIntBetween(1, 9))
         }
 
         private fun performMainMenuOption(option: Int) {
@@ -71,62 +77,46 @@ class MainMenu : Screen() {
             when(option) {
 
                 1 -> {
-                    val hasPermission = User.isUserHasPermission(CurrentUser.user, User.Companion.Permissions.ShowClientList.num)
-                    if (hasPermission) showClientsScreen()
-                    else DrawScreenHeader(MSG_DENIED)
-
+                    showClientsScreen()
                     goBackToMainMenu()
                 }
 
                 2 -> {
-                    val hasPermission = User.isUserHasPermission(CurrentUser.user, User.Companion.Permissions.AddClient.num)
-                    if (hasPermission) showAddNewClientScreen()
-                    else DrawScreenHeader(MSG_DENIED)
-
+                    showAddNewClientScreen()
                     goBackToMainMenu()
                 }
 
                 3 -> {
-                    val hasPermission = User.isUserHasPermission(CurrentUser.user, User.Companion.Permissions.DeleteClient.num)
-                    if (hasPermission) showDeleteClientScreen()
-                    else DrawScreenHeader(MSG_DENIED)
-
+                    showDeleteClientScreen()
                     goBackToMainMenu()
                 }
 
                 4 -> {
-                    val hasPermission = User.isUserHasPermission(CurrentUser.user, User.Companion.Permissions.UpdateClient.num)
-                    if (hasPermission) showUpdateClientScreen()
-                    else DrawScreenHeader(MSG_DENIED)
-
+                    showUpdateClientScreen()
                     goBackToMainMenu()
                 }
 
                 5 -> {
-                    val hasPermission = User.isUserHasPermission(CurrentUser.user, User.Companion.Permissions.FindClient.num)
-                    if (hasPermission) showFindClientScreen()
-                    else DrawScreenHeader(MSG_DENIED)
-
+                    showFindClientScreen()
                     goBackToMainMenu()
                 }
 
                 6 -> {
-                    val hasPermission = User.isUserHasPermission(CurrentUser.user, User.Companion.Permissions.Transactions.num)
-                    if (hasPermission) showTransactionScreen()
-                    else DrawScreenHeader(MSG_DENIED)
-
+                    showTransactionScreen()
                     goBackToMainMenu()
                 }
 
                 7 -> {
-                    val hasPermission = User.isUserHasPermission(CurrentUser.user, User.Companion.Permissions.ManageUsers.num)
-                    if (hasPermission) showManageUsersScreen()
-                    else DrawScreenHeader(MSG_DENIED)
-
+                    showManageUsersScreen()
                     goBackToMainMenu()
                 }
 
                 8 -> {
+                    showLogScreen()
+                    goBackToMainMenu()
+                }
+
+                9 -> {
                     logoutScreen()
                 }
             }

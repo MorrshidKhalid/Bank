@@ -1,7 +1,9 @@
 package org.example.objects
 
+import org.example.CurrentUser
 import org.example.Mode
 import org.example.SaveResult
+import org.example.lib.Date.Companion.getCurrentDateAndTime
 import java.io.File
 
 class BankClient(
@@ -19,6 +21,7 @@ class BankClient(
     companion object {
 
         private const val PATH = "Clients.txt"
+        private const val TRANS_LOG_PATH = "TransLog.txt"
         private const val EMPTY = ""
 
         private fun loadClientsDataFromFile(): ArrayList<BankClient> {
@@ -33,6 +36,18 @@ class BankClient(
             return arrayOfClients
         }
 
+        private fun loadTransferLogDataFromFile(): ArrayList<TransLog> {
+
+            val file  = File(TRANS_LOG_PATH)
+            val arrayOfTransLog = ArrayList<TransLog>()
+
+            if (file.exists())
+                file.forEachLine { arrayOfTransLog.add(convertLineToTransLogObject(it)) } // Process each line here.
+            else println(println("File Record does not exist"))
+
+            return arrayOfTransLog
+        }
+
         private fun convertLineToClientObject(line: String, separator: String = "#//#"): BankClient {
 
             val  lineRecord = line.split(separator)
@@ -45,6 +60,19 @@ class BankClient(
                 lineRecord[4],
                 lineRecord[5],
                 lineRecord[6].toDouble())
+        }
+
+        private fun convertLineToTransLogObject(line: String, separator: String = "#//#"): TransLog {
+
+            val  lineRecord = line.split(separator)
+            return TransLog(
+                lineRecord[0],
+                lineRecord[1],
+                lineRecord[2],
+                lineRecord[3],
+                lineRecord[4],
+                lineRecord[5],
+                lineRecord[6])
         }
 
         private fun convertClientObjectToLine(client: BankClient, separator: String = "#//#"): String {
@@ -98,6 +126,8 @@ class BankClient(
         fun isClientExists(accountNo: String): Boolean = !find(accountNo).isEmpty()
 
         fun getClientsList(): ArrayList<BankClient> = loadClientsDataFromFile()
+
+        fun getTransferList(): ArrayList<TransLog> = loadTransferLogDataFromFile()
 
         fun getTotalBalances(): Double {
 
@@ -193,4 +223,26 @@ class BankClient(
         return true
     }
 
+    private fun prepareTransLine(destination: BankClient, amount:Double, separator: String = "#//#"): String =
+        "${getCurrentDateAndTime()}$separator" +
+                "${this.accountNo}$separator" +
+                "${destination.accountNo}$separator" +
+                "${amount}$separator" +
+                "${this.accountBalance}$separator" +
+                "${destination.accountBalance}$separator" +
+                CurrentUser.user.userName
+
+    private fun addLogTransfer(destination: BankClient, amount: Double) {
+        File(TRANS_LOG_PATH).appendText("${prepareTransLine(destination, amount)}\n")
+    }
+
+    fun transfer(amount: Double, destinationClient: BankClient): Boolean {
+        if (amount > this.accountBalance)
+            return false
+
+        withdraw(amount)
+        destinationClient.deposit(amount)
+        addLogTransfer(destinationClient, amount) // Keep track client transfer.
+        return true
+    }
 }

@@ -1,5 +1,6 @@
 package org.example.ui.manage
 
+import org.example.lib.Util.Companion.encryptText
 import org.example.SaveResult
 import org.example.lib.Util.Companion.line
 import org.example.objects.User
@@ -73,19 +74,24 @@ class AddUserScreen : Screen() {
             if (ans == "y")
                 permission += User.Companion.Permissions.ManageUsers.num
 
+            print("Login Register? y/n ")
+            ans = readln().lowercase()
+            if (ans == "y")
+                permission += User.Companion.Permissions.Log.num
+
             return permission
         }
 
         private fun readUserInfo(user: User) {
 
             print("Please Enter Password: ")
-            user.password = readln()
+            user.password = encryptText(readln())
             user.permission = readPermissionsToSet()
         }
 
 
         fun showAddUserScreen() {
-            DrawScreenHeader(TITLE)
+            drawScreenHeader(TITLE)
 
             print("Please Enter Username: ")
             var username = readln()

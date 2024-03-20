@@ -4,7 +4,6 @@ import org.example.SaveResult
 import org.example.lib.Util
 import org.example.objects.User
 import org.example.ui.Screen
-import org.example.ui.main.UpdateClientScreen
 
 class UpdateUserScreen : Screen() {
 
@@ -86,7 +85,7 @@ class UpdateUserScreen : Screen() {
         }
 
         fun showUpdateUserScreen() {
-            DrawScreenHeader(TITLE)
+            drawScreenHeader(TITLE)
 
             print("Please Enter Username: ")
             var username = readln()

@@ -11,14 +11,24 @@ class LoginScreen : Screen() {
 
     companion object {
 
-        private fun login() {
+        private fun login(): Boolean {
 
             var loginField = false
+            var loginAttempts = 0
 
             do {
 
-                if (loginField)
+                if (loginField) {
                     println("Invalid Username/Password\n")
+                    loginAttempts += 1
+                    println("You Have ${3 - loginAttempts} Trials to login\n")
+                }
+
+
+                if (loginAttempts == 3) { // This will exit of login screen.
+                    println("You are Locked after 3 trails")
+                    return false
+                }
 
                 print("Username: ")
                 val userName = readln()
@@ -30,13 +40,15 @@ class LoginScreen : Screen() {
 
             }while (loginField)
 
+            User.addNewRegister() // Here add record User logged in with data and time.
             MainMenu.showMainMenu()
+            return true
         }
 
-        fun showLoginScreen(msg: String = "Login Page") {
+        fun showLoginScreen(msg: String = "Login Page"): Boolean {
 
-            DrawScreenHeader(msg)
-            login()
+            drawScreenHeader(msg)
+            return login()
         }
 
     }

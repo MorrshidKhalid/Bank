@@ -1,6 +1,7 @@
 package org.example.ui.transactions
 
 import lib.InputValidate.Companion.readIntBetween
+import org.example.objects.User
 import org.example.ui.Screen
 
 class Transaction : Screen() {
@@ -18,6 +19,14 @@ class Transaction : Screen() {
 
         private fun showTotalBalancesScreen() {
             TotalBalancesScreen.showTotalBalancesScreen()
+        }
+
+        private fun showTransferScreen() {
+            TransferScreen.showTransScreen()
+        }
+
+        private fun showTransferLogScreen() {
+            TransLogScreen.showTransferLogScreen()
         }
 
         private fun goBackToTransMenu() {
@@ -46,24 +55,37 @@ class Transaction : Screen() {
                     goBackToTransMenu()
                 }
 
-                4 -> { /*Do Nothing*/ }
+                4 -> {
+                    showTransferScreen()
+                    goBackToTransMenu()
+                }
+
+                5 -> {
+                    showTransferLogScreen()
+                    goBackToTransMenu()
+                }
+                6 -> { /*Do Nothing*/ }
             }
         }
 
         fun showTransactionsMenu() {
 
+            if (!userPermissions(User.Companion.Permissions.Transactions.num)) // This will exit the function if the user has no access.
+                return
 
-            DrawScreenHeader("Transaction Screen")
-            println("\n%-25s\n%-25s\n%-25s\n%-25s".
+            drawScreenHeader("Transaction Screen")
+            println("\n%-25s\n%-25s\n%-25s\n%-25s\n%-25s\n%-25s".
             format("[1] Deposit ",
                 "[2] Withdraw ",
                 "[3] Total Balance ",
-                "[4] Back to Main Menu "))
+                "[4] Transfer ",
+                "[5] Transfer Log",
+                "[6] Back to Main Menu "))
 
             print("\n======================================================================\n")
-            print("Choose what you want to do[1 to 4]? ")
+            print("Choose what you want to do[1 to 6]? ")
 
-            performTransMainMenuOption(readIntBetween(1, 4))
+            performTransMainMenuOption(readIntBetween(1, 6))
         }
     }
 }

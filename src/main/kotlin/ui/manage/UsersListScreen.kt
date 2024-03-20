@@ -14,7 +14,7 @@ class UsersListScreen : Screen() {
         }
 
         fun showUsersListScreen() {
-            DrawScreenHeader(_title)
+            drawScreenHeader(_title)
 
             println("%-16s|%-16s|%-16s".format("Username", "Password", "Permission Number"))
             val usersList = User.getUserList()
