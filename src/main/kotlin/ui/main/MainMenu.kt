@@ -2,10 +2,9 @@ package org.example.ui.main
 
 import lib.InputValidate.Companion.readIntBetween
 import org.example.CurrentUser
-import org.example.objects.LogRegister
 import org.example.objects.User
 import org.example.ui.Screen
-import org.example.ui.login.LoginScreen
+import org.example.ui.currncy.CurrencyMainMenu
 import org.example.ui.manage.ManageUsers
 import org.example.ui.transactions.Transaction
 
@@ -13,8 +12,6 @@ import org.example.ui.transactions.Transaction
 class MainMenu : Screen() {
 
     companion object {
-
-        private const val MSG_DENIED = "Access Denied Contact your Admin!"
 
         private fun  showClientsScreen() {
             ClientListScreen.showClientsList()
@@ -44,6 +41,9 @@ class MainMenu : Screen() {
             ManageUsers.showManageUsersManu()
         }
 
+        private fun showCurrenciesMenu() {
+            CurrencyMainMenu.showCurrenciesMenu()
+        }
         private fun  showLogScreen() {
             LogScreen.showLogRegisterScreen()
         }
@@ -55,21 +55,22 @@ class MainMenu : Screen() {
         fun showMainMenu() {
 
             drawScreenHeader("Main Menu Screen")
-            println("\n%-25s\n%-25s\n%-25s\n%-25s\n%-25s\n%-25s\n%-25s\n%-25s\n%-25s".
-            format("[1] Show client list ",
-                "[2] Add New Record ",
-                "[3] Delete Record ",
-                "[4] Update Record ",
-                "[5] Find Record ",
-                "[6] Transactions ",
-                "[7] Manage Users ",
-                "[8] Login Register ",
-                "[9] Logout "))
+            println("\n%-25s\n%-25s\n%-25s\n%-25s\n%-25s\n%-25s\n%-25s\n%-25s\n%-25s\n%-25s".
+            format("[1] Show client list. ",
+                "[2] Add New Record. ",
+                "[3] Delete Record. ",
+                "[4] Update Record. ",
+                "[5] Find Record. ",
+                "[6] Transactions. ",
+                "[7] Manage Users. ",
+                "[8] Login Register. ",
+                "[9] Currency Exchange. ",
+                "[10] Logout. "))
 
             print("\n======================================================================\n")
-            print("Choose what you want to do[1 to 9]? ")
+            print("Choose what you want to do[1 to 10]? ")
 
-            performMainMenuOption(readIntBetween(1, 9))
+            performMainMenuOption(readIntBetween(1, 10))
         }
 
         private fun performMainMenuOption(option: Int) {
@@ -117,6 +118,11 @@ class MainMenu : Screen() {
                 }
 
                 9 -> {
+                    showCurrenciesMenu()
+                    goBackToMainMenu()
+                }
+
+                10 -> {
                     logoutScreen()
                 }
             }

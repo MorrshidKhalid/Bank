@@ -7,6 +7,4 @@ fun main() {
     while (true)
         if (!LoginScreen.showLoginScreen())
             break
-
-
 }

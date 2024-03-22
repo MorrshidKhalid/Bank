@@ -62,6 +62,27 @@ class InputValidate {
             return input
         }
 
+        fun readFlt(msg: String = "InputMismatchException"): Float {
+
+            val scanner = Scanner(System.`in`)
+            var input: Float
+
+            // Make sure the input is only integers.
+            do {
+                try {
+                    input = scanner.nextFloat() // Read input.
+                } catch (e: InputMismatchException) {
+                    println(msg)
+                    scanner.next()
+                    continue
+                }
+
+                break // If the input is an integer out of the loop.
+            } while (true)
+
+            return input
+        }
+
         fun readIntBetween(from: Int, to: Int, msg: String = "Number is not within range"): Int {
 
             var input = readInt()
