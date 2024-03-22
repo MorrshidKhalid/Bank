@@ -8,5 +8,7 @@ Features:
 - Add, Delete, Update clients.
 - Perform Deposite, Withdraw.
 - Add, Delete, Update Users.
+- Currency Exchange
+- Update currency rate
 And etc.
 This Application uses kotlin programming language, and OOP best practices with functional programming, I hope this App will help you in anyway :-)
